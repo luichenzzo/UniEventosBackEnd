@@ -1,11 +1,13 @@
 package co.edu.uniquindio.unieventos.repositories;
 
-import co.edu.uniquindio.unieventos.model.Admin;
+import co.edu.uniquindio.unieventos.model.document.Admin;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface AdminRepository extends MongoRepository<Admin, String> {
 
     @Query

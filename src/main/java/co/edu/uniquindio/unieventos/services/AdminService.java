@@ -1,6 +1,6 @@
 package co.edu.uniquindio.unieventos.services;
 
-import co.edu.uniquindio.unieventos.model.Admin;
+import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

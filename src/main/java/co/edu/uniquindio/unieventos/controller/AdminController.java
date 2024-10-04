@@ -1,8 +1,7 @@
 package co.edu.uniquindio.unieventos.controller;
 
 
-import co.edu.uniquindio.unieventos.model.Admin;
-import co.edu.uniquindio.unieventos.repositories.AdminRepository;
+import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

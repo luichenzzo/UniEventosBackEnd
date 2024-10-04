@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.model;
+package co.edu.uniquindio.unieventos.model.document;
 
 import lombok.Builder;
 import lombok.Data;
