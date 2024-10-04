@@ -1,6 +1,5 @@
 package co.edu.uniquindio.unieventos.services;
 
-import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.model.document.Client;
 import co.edu.uniquindio.unieventos.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +15,18 @@ public class ClientService{
     private ClientRepository clientRepository;
 
     public List<Client> findByFirtsName(String firtsName) {
-        return clientRepository.findByFirstName(firtsName);
+        return clientRepository.findByFirstNameContainingIgnoreCase(firtsName);
     }
 
     public List<Client> findByLastName(String lastName) {
-        return clientRepository.findByLastName(lastName);
+        return clientRepository.findByLastNameContainingIgnoreCase(lastName);
     }
 
     public List<Client> findByEmail(String email) {
-        return clientRepository.findByEmail(email);
+        return clientRepository.findByEmailContainingIgnoreCase(email);
     }
 
-    public List<Client> findByPhoneNumber(String phoneNumber) {return clientRepository.findByPhoneNumber(phoneNumber);}
+    public List<Client> findByPhoneNumber(String phoneNumber) {return clientRepository.findByPhoneNumberContaining(phoneNumber);}
 
 
     public Client createClient(Client client){return clientRepository.save(client);}
@@ -36,6 +35,10 @@ public class ClientService{
     public List<Client> getAllClient(){return clientRepository.findAll();}
 
     public Optional<Client> findByFullName(String firstName, String lastName) {
-        return clientRepository.findByFirstNameAndLastName(firstName, lastName);
+        return clientRepository.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(firstName, lastName);
+    }
+
+    public List<Client> findByAnyName(String firstName, String lastName) {
+        return clientRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName,lastName);
     }
 }

@@ -66,5 +66,10 @@ public class ClientController {
         return clientService.findByFullName(firstName, lastName);
     }
 
+    @GetMapping("/findByAnyName")
+    public List<Client> getByAnyName(@RequestParam String firstName, @RequestParam String lastName) {
+        return clientService.findByAnyName(firstName, lastName);
+    }
+
 }
 

@@ -1,6 +1,5 @@
 package co.edu.uniquindio.unieventos.repositories;
 
-import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.model.document.Client;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -13,18 +12,21 @@ import java.util.Optional;
 public interface ClientRepository extends MongoRepository<Client, String> {
 
     @Query
-    List<Client> findByFirstName(String usuario);
+    List<Client> findByFirstNameContainingIgnoreCase(String usuario);
 
     @Query
-    List<Client> findByLastName(String usuario);
+    List<Client> findByLastNameContainingIgnoreCase(String usuario);
 
     @Query
-    List<Client> findByEmail(String usuario);
+    List<Client> findByEmailContainingIgnoreCase(String usuario);
 
     @Query
-    List<Client> findByPhoneNumber(String usuario);
+    List<Client> findByPhoneNumberContaining(String usuario);
 
 
     @Query
-    Optional<Client> findByFirstNameAndLastName(String firstName, String lastName);
+    Optional<Client> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(String firstName, String lastName);
+
+    @Query
+    List<Client> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
 }
