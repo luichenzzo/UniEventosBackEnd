@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/admins")
 public class AdminController {
@@ -20,5 +22,12 @@ public class AdminController {
         System.out.println(newAdmin.toString());
         return ResponseEntity.ok(newAdmin);
     }
+
+
+    @GetMapping("/login")
+    public Optional<Admin> login(@RequestParam String usuario, @RequestParam String contrasenia) {
+        return adminService.findByUsuarioAndContrasenia(usuario, contrasenia);
+    }
+
 }
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -46,5 +47,10 @@ public class AdminService {
     //Agregar un Admin
     public Admin createAdmin(Admin admin){
         return adminRepository.save(admin);
+    }
+
+
+    public Optional<Admin> findByUsuarioAndContrasenia(String usuario, String contrasenia) {
+        return adminRepository.findByUsuarioAndContrasenia(usuario, contrasenia);
     }
 }
