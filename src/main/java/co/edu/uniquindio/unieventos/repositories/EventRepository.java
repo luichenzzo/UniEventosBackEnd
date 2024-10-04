@@ -12,28 +12,28 @@ public interface EventRepository extends MongoRepository<Event, String> {
 
     // Buscar eventos por nombre
     @Query
-    List<Event> findByName(String name);
+    List<Event> findByNameContainsIgnoreCase(String name);
 
     // Buscar eventos por ciudad
     @Query
-    List<Event> findByCity(String city);
+    List<Event> findByCityContainsIgnoreCase(String city);
 
     // Buscar eventos por fecha
     @Query
-    List<Event> findByDate(String date);
+    List<Event> findByDateContainingIgnoreCase(String date);
 
     // Buscar eventos por estado (EventStatus)
     @Query
-    List<Event> findByEventStatus(EventStatus eventStatus);
+    List<Event> findByEventStatusIgnoreCase(EventStatus eventStatus);
 
     // Búsqueda combinada usando AND
-    List<Event> findByNameAndCity(String name, String city);
+    List<Event> findByNameContainingIgnoreCaseAndCityContainingIgnoreCase(String name, String city);
 
     // Búsqueda combinada usando OR
-    List<Event> findByNameOrCity(String name, String city);
+    List<Event> findByNameContainingIgnoreCaseOrCityContainingIgnoreCase(String name, String city);
 
     // Búsqueda combinada con fecha y estado
-    List<Event> findByDateAndEventStatus(String date, EventStatus eventStatus);
+    List<Event> findByDateIgnoreCaseAndEventStatusIgnoreCase(String date, EventStatus eventStatus);
 }
 
 

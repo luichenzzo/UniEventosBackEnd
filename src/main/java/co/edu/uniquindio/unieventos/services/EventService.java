@@ -36,37 +36,37 @@ public class EventService {
 
     // Buscar eventos por nombre
     public List<Event> getEventsByName(String name) {
-        return eventRepository.findByName(name);
+        return eventRepository.findByNameContainsIgnoreCase(name);
     }
 
     // Buscar eventos por ciudad
     public List<Event> getEventsByCity(String city) {
-        return eventRepository.findByCity(city);
+        return eventRepository.findByCityContainsIgnoreCase(city);
     }
 
     // Buscar eventos por fecha
     public List<Event> getEventsByDate(String date) {
-        return eventRepository.findByDate(date);
+        return eventRepository.findByDateContainingIgnoreCase(date);
     }
 
     // Buscar eventos por estado
     public List<Event> getEventsByStatus(EventStatus status) {
-        return eventRepository.findByEventStatus(status);
+        return eventRepository.findByEventStatusIgnoreCase(status);
     }
 
     // Buscar eventos combinados por nombre y ciudad
     public List<Event> getEventsByNameAndCity(String name, String city) {
-        return eventRepository.findByNameAndCity(name, city);
+        return eventRepository.findByNameContainingIgnoreCaseAndCityContainingIgnoreCase(name, city);
     }
 
     // Buscar eventos combinados por nombre o ciudad
     public List<Event> getEventsByNameOrCity(String name, String city) {
-        return eventRepository.findByNameOrCity(name, city);
+        return eventRepository.findByNameContainingIgnoreCaseOrCityContainingIgnoreCase(name, city);
     }
 
     // Buscar eventos combinados por fecha y estado
     public List<Event> getEventsByDateAndStatus(String date, EventStatus status) {
-        return eventRepository.findByDateAndEventStatus(date, status);
+        return eventRepository.findByDateIgnoreCaseAndEventStatusIgnoreCase(date, status);
     }
 }
 
