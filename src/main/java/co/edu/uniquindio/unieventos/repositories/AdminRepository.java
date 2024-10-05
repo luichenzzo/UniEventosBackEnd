@@ -16,16 +16,6 @@ public interface AdminRepository extends MongoRepository<Admin, String> {
     List<Admin> findByUsuario(String usuario);
 
     // Buscar por "contrasenia"
-    @Query
-    List<Admin> findByContrasenia(String contrasenia);
-
-    // Actualizar "usuario" por "id"
-    @Query("{ '_id': ?0 } { $set: { 'usuario': ?1 } }")
-    void updateUsuarioById(String id, String usuario);
-
-    // Actualizar "contrasenia" por "id"
-    @Query("{ '_id': ?0 } { $set: { 'contrasenia': ?1 } }")
-    void updateContraseniaById(String id, String contrasenia);
 
     // Eliminar por "id"
     void deleteById(String id);

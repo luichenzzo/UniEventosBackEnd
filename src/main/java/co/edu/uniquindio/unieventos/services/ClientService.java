@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -41,4 +42,44 @@ public class ClientService{
     public List<Client> findByAnyName(String firstName, String lastName) {
         return clientRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName,lastName);
     }
+
+    public boolean deleteClientById(String clientId) {
+        if (clientRepository.existsById(clientId)) {
+            clientRepository.deleteById(clientId);
+            return true;
+        } else {
+            throw new NoSuchElementException("Client with ID " + clientId + " does not exist.");
+        }
+    }
+
+    public Client updateClient(String clientId, Client clientDetails) {
+        // Verificar si el cliente existe
+        Client existingClient = clientRepository.findById(clientId)
+                .orElseThrow(() -> new NoSuchElementException("Client with ID " + clientId + " not found"));
+
+        // Actualizar los campos que deseas modificar
+        existingClient.setFirstName(clientDetails.getFirstName());
+        existingClient.setLastName(clientDetails.getLastName());
+        existingClient.setEmail(clientDetails.getEmail());
+        existingClient.setPhoneNumber(clientDetails.getPhoneNumber());
+        existingClient.setAddress(clientDetails.getAddress());
+
+        // Guardar los cambios
+        return clientRepository.save(existingClient);
+    }
+
+    public boolean updatePassword(String clientId, String  newPassword) {
+        // Verificar si el cliente existe
+        Client existingClient = clientRepository.findById(clientId)
+                .orElseThrow(() -> new NoSuchElementException("Client with ID " + clientId + " not found"));
+
+        // Actualizar contraseña
+        existingClient.setPassword(newPassword);
+
+        clientRepository.save(existingClient);
+        // Guardar los cambios
+        return true;
+    }
+
+
 }

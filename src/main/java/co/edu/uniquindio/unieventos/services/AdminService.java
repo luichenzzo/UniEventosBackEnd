@@ -19,21 +19,6 @@ public class AdminService {
         return adminRepository.findByUsuario(usuario);
     }
 
-    // Buscar por "contrasenia"
-    public List<Admin> findByContrasenia(String contrasenia) {
-        return adminRepository.findByContrasenia(contrasenia);
-    }
-
-    // Actualizar "usuario" por "id"
-    public void updateUsuarioById(String id, String usuario) {
-        adminRepository.updateUsuarioById(id, usuario);
-    }
-
-    // Actualizar "contrasenia" por "id"
-    public void updateContraseniaById(String id, String contrasenia) {
-        adminRepository.updateContraseniaById(id, contrasenia);
-    }
-
     // Eliminar por "id"
     public void deleteById(String id) {
         adminRepository.deleteById(id);

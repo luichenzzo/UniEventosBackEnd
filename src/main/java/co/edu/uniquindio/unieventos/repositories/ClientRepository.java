@@ -23,10 +23,11 @@ public interface ClientRepository extends MongoRepository<Client, String> {
     @Query
     List<Client> findByPhoneNumberContaining(String usuario);
 
-
     @Query
     Optional<Client> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(String firstName, String lastName);
 
     @Query
     List<Client> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
+
+
 }

@@ -17,7 +17,6 @@ public class Event {
 
     @Id
     private String code;
-
     private String address;
     private String city;
     private String description;
@@ -25,6 +24,7 @@ public class Event {
     private String locationImage;
     private String name;
     private String date;
+    private String dateTime;
     private EventType eventType;
     private EventStatus eventStatus;
 }

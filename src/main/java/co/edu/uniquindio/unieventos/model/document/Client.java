@@ -17,7 +17,7 @@ public class Client {
     private String id;
     private String firstName;
     private String lastName;
-    private String addres;
+    private String address;
     private String phoneNumber;
     private String email;
     private String password;
