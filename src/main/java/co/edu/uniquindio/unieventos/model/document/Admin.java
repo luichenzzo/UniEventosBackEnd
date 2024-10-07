@@ -14,5 +14,10 @@ public class Admin {
     @Id
     private String usuario;
     private String contrasenia;
+
+    public Admin(String usuario, String contrasenia) {
+        this.usuario = usuario;
+        this.contrasenia = contrasenia;
+    }
 }
 
