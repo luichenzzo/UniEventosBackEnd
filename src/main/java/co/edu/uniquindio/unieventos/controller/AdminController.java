@@ -7,6 +7,7 @@ import co.edu.uniquindio.unieventos.dto.admin.AdminResponseDTO;
 import co.edu.uniquindio.unieventos.dto.client.ClientResponseDTO;
 import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.services.AdminService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admins")
+@SecurityRequirement(name = "bearerAuth")
 public class AdminController {
 
     @Autowired

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/mail")
 public class EmailController {
-
+/*
     @Autowired
     private EmailService emailService;
 
@@ -23,5 +23,5 @@ public class EmailController {
         } catch (MessagingException e) {
             return "Error al enviar el email: " + e.getMessage();
         }
-    }
+    }*/
 }

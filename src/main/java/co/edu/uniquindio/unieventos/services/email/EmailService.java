@@ -1,28 +1,48 @@
 package co.edu.uniquindio.unieventos.services.email;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import co.edu.uniquindio.unieventos.dto.email.EmailDTO;
+import org.simplejavamail.api.email.Email;
+import org.simplejavamail.api.mailer.Mailer;
+import org.simplejavamail.email.EmailBuilder;
+import org.simplejavamail.mailer.MailerBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
+/*
+    @Value("${simplejavamail.smtp.host}")
+    private String SMTP_HOST;
 
-    @Autowired
-    private JavaMailSender mailSender;
+    @Value("${simplejavamail.smtp.port}")
+    private int SMTP_PORT;
 
-    public void sendEmail(String to, String subject, String text) throws MessagingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    @Value("${simplejavamail.smtp.username}")
+    private String SMTP_USERNAME;
 
-        helper.setFrom("uniEventosUQ5@gmail.com"); // Cambia esto por tu correo
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(text, false); // false para texto plano, true para HTML
+    @Value("${simplejavamail.smtp.password}")
+    private String SMTP_PASSWORD;
 
-        mailSender.send(message);
-    }
+    public void sendEmail(EmailDTO emailDTO) throws Exception {
+        Email email = EmailBuilder.startingBlank()
+                .from(SMTP_USERNAME)
+                .to(emailDTO.receiver())
+                .withSubject(emailDTO.subject())
+                //This plain text could be replaced with "withHTMLText"
+                .withPlainText(emailDTO.body())
+                .buildEmail();
+
+
+        try (Mailer mailer = MailerBuilder
+                .withSMTPServer(SMTP_HOST, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD)
+                .withTransportStrategy(TransportStrategy.SMTP_TLS)
+                .withDebugLogging(true)
+                .buildMailer()) {
+
+
+            mailer.sendMail(email);
+        }
+
+
+    }*/
 }
