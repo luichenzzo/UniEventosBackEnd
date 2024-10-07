@@ -1,6 +1,6 @@
 package co.edu.uniquindio.unieventos.config;
 
-import co.edu.uniquindio.unieventos.dto.jwtdtos.MessageDTO;
+import co.edu.uniquindio.unieventos.dto.jwt.MessageDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

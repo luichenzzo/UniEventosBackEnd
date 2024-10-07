@@ -12,8 +12,13 @@ import java.util.Map;
 
 @Component
 public class JWTUtils {
+
+
     public String generarToken(String email, Map<String, Object> claims){
+
         Instant now = Instant.now();
+
+
         return Jwts.builder()
                 .claims(claims)
                 .subject(email)
@@ -22,16 +27,17 @@ public class JWTUtils {
                 .signWith( getKey() )
                 .compact();
     }
-    public Jws<Claims> parseJwt(String jwtString) throws ExpiredJwtException,
-            UnsupportedJwtException, MalformedJwtException, IllegalArgumentException {
+
+    public Jws<Claims> parseJwt(String jwtString) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, IllegalArgumentException {
         JwtParser jwtParser = Jwts.parser().verifyWith( getKey() ).build();
         return jwtParser.parseSignedClaims(jwtString);
     }
-    private SecretKey getKey(){
-        //TODO ask if this string needs to be changed
-        String secretKey = "secretsecretsecretsecretsecretsecretsecretsecret";
 
-        byte[] secretKeyBytes = secretKey.getBytes();
+    private SecretKey getKey(){
+        String claveSecreta = "secretsecretsecretsecretsecretsecretsecretsecret";
+        byte[] secretKeyBytes = claveSecreta.getBytes();
         return Keys.hmacShaKeyFor(secretKeyBytes);
     }
+
+
 }

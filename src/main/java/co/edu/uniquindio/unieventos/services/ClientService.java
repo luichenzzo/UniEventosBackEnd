@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unieventos.services;
 
+import co.edu.uniquindio.unieventos.config.JWTUtils;
 import co.edu.uniquindio.unieventos.dto.client.ClientLoginRequestDTO;
 import co.edu.uniquindio.unieventos.dto.client.ClientPasswordResponseDTO;
 import co.edu.uniquindio.unieventos.dto.client.ClientRequestDTO;
@@ -178,7 +179,8 @@ public class ClientService{
 
     }
 
-    private String generateTokenClient(String email) {
+    //TODO: hacer el token
+    /*private String generateTokenClient(String email) {
 
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", "Client"); // Puedes agregar roles u otros datos relevantes aquí
@@ -191,7 +193,7 @@ public class ClientService{
                 .compact();
 
          return token;
-    }
+    }*/
 
 
 
