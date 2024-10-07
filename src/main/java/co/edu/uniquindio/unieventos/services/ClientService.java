@@ -160,6 +160,8 @@ public class ClientService{
         return clientRepository.getClientById(id);
     }
 
+    //TODO: hacer el login con el token
+/*
     public String loginCliente(ClientLoginRequestDTO clientLoginRequestDTO) {
 
 
@@ -177,7 +179,7 @@ public class ClientService{
         }
 
 
-    }
+    }*/
 
     //TODO: hacer el token
     /*private String generateTokenClient(String email) {
