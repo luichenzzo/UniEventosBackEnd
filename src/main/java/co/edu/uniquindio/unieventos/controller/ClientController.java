@@ -1,5 +1,9 @@
 package co.edu.uniquindio.unieventos.controller;
 
+import co.edu.uniquindio.unieventos.dto.client.ClientRequestDTO;
+import co.edu.uniquindio.unieventos.dto.client.ClientResponseDTO;
+import co.edu.uniquindio.unieventos.dto.event.EventRequestDTO;
+import co.edu.uniquindio.unieventos.dto.event.EventResponseDTO;
 import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.model.document.Client;
 import co.edu.uniquindio.unieventos.services.ClientService;
@@ -19,55 +23,54 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping("/create")
-    public ResponseEntity<Client> createClient(@RequestBody Client client){
-            Client newClient =clientService.createClient(client);
-            System.out.println(newClient.toString());
-            return ResponseEntity.ok(newClient);
+    public ResponseEntity<ClientResponseDTO> createClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+        ClientResponseDTO clientResponseDTO = clientService.createClient(clientRequestDTO);
+        return ResponseEntity.ok(clientResponseDTO);
     }
 
     @GetMapping("/findByFirstName")
     public ResponseEntity<?> getByFirstName(String firstName) {
 
-        List<Client> client = clientService.findByFirtsName(firstName);
+        List<ClientResponseDTO> client = clientService.findByFirtsName(firstName);
         return ResponseEntity.ok(client);
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllClients() {
 
-        List<Client> client = clientService.getAllClient();
+        List<ClientResponseDTO> client = clientService.getAllClient();
         return ResponseEntity.ok(client);
     }
 
     @GetMapping("/findByLastName")
     public ResponseEntity<?> getByLastName(String lastName) {
 
-        List<Client> client = clientService.findByLastName(lastName);
+        List<ClientResponseDTO> client = clientService.findByLastName(lastName);
         return ResponseEntity.ok(client);
     }
 
     @GetMapping("/findByEmail")
     public ResponseEntity<?> getByEmail(String email) {
 
-        List<Client> client = clientService.findByEmail(email);
+        List<ClientResponseDTO> client = clientService.findByEmail(email);
         return ResponseEntity.ok(client);
     }
 
     @GetMapping("/findByPhoneNumber")
     public ResponseEntity<?> getByPhoneNumber(String phoneNumber) {
 
-        List<Client> client = clientService.findByPhoneNumber(phoneNumber);
+        List<ClientResponseDTO> client = clientService.findByPhoneNumber(phoneNumber);
         return ResponseEntity.ok(client);
     }
 
 
     @GetMapping("/findByFullName")
-    public Optional<Client> getByFullName(@RequestParam String firstName, @RequestParam String lastName) {
+    public List<ClientResponseDTO> getByFullName(@RequestParam String firstName, @RequestParam String lastName) {
         return clientService.findByFullName(firstName, lastName);
     }
 
     @GetMapping("/findByAnyName")
-    public List<Client> getByAnyName(@RequestParam String firstName, @RequestParam String lastName) {
+    public List<ClientResponseDTO> getByAnyName(@RequestParam String firstName, @RequestParam String lastName) {
         return clientService.findByAnyName(firstName, lastName);
     }
 

@@ -24,9 +24,9 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<EventResponseDTO> getEventById(@PathVariable String id) {
-        Optional<EventResponseDTO> event = eventService.getEventById(id);
+    @GetMapping("/getByCode")
+    public ResponseEntity<EventResponseDTO> getEventById(@RequestParam String code) {
+        Optional<EventResponseDTO> event = eventService.getEventById(code);
         return event.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
