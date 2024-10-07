@@ -1,8 +1,10 @@
 package co.edu.uniquindio.unieventos.controller;
 
 
+import co.edu.uniquindio.unieventos.Excepciones.NoExistenciaUsuarioException;
 import co.edu.uniquindio.unieventos.dto.admin.AdminRequestDTO;
 import co.edu.uniquindio.unieventos.dto.admin.AdminResponseDTO;
+import co.edu.uniquindio.unieventos.dto.client.ClientResponseDTO;
 import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,27 +30,19 @@ public class AdminController {
     }
 
     // Buscar admins por usuario
-    @GetMapping("/findByUsuario/{usuario}")
-    public ResponseEntity<List<AdminResponseDTO>> findByUsuario(@PathVariable String usuario) {
-        List<AdminResponseDTO> admins = adminService.findByUsuario(usuario);
-        if (admins.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(admins);
+    @GetMapping("/findByUsuario")
+    public ResponseEntity<?> findByUsuario(@RequestParam String usuario ) {
+
+        List<AdminResponseDTO> client = adminService.findByUsuario(usuario);
+        return ResponseEntity.ok(client);
     }
+
 
     // Eliminar admin por ID
-    @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable String id) {
-        adminService.deleteById(id);
-        return ResponseEntity.ok().build();
-    }
+    @DeleteMapping("/deleteByUsuario")
+    public boolean deleteByUsuario(@RequestParam String usuario) throws NoExistenciaUsuarioException {
 
-    // Eliminar admin por usuario
-    @DeleteMapping("/deleteByUsuario/{usuario}")
-    public ResponseEntity<Void> deleteByUsuario(@PathVariable String usuario) {
-        adminService.deleteByUsuario(usuario);
-        return ResponseEntity.ok().build();
+        return adminService.deleteById(usuario);
     }
 
     // Buscar admin por usuario y contrasenia

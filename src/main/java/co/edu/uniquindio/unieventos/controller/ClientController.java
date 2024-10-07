@@ -29,7 +29,7 @@ public class ClientController {
     }
 
     @GetMapping("/findByFirstName")
-    public ResponseEntity<?> getByFirstName(String firstName) {
+    public ResponseEntity<?> getByFirstName(@RequestParam String firstName) {
 
         List<ClientResponseDTO> client = clientService.findByFirtsName(firstName);
         return ResponseEntity.ok(client);
@@ -43,21 +43,21 @@ public class ClientController {
     }
 
     @GetMapping("/findByLastName")
-    public ResponseEntity<?> getByLastName(String lastName) {
+    public ResponseEntity<?> getByLastName(@RequestParam String lastName) {
 
         List<ClientResponseDTO> client = clientService.findByLastName(lastName);
         return ResponseEntity.ok(client);
     }
 
     @GetMapping("/findByEmail")
-    public ResponseEntity<?> getByEmail(String email) {
+    public ResponseEntity<?> getByEmail(@RequestParam  String email) {
 
         List<ClientResponseDTO> client = clientService.findByEmail(email);
         return ResponseEntity.ok(client);
     }
 
     @GetMapping("/findByPhoneNumber")
-    public ResponseEntity<?> getByPhoneNumber(String phoneNumber) {
+    public ResponseEntity<?> getByPhoneNumber(@RequestParam String phoneNumber) {
 
         List<ClientResponseDTO> client = clientService.findByPhoneNumber(phoneNumber);
         return ResponseEntity.ok(client);

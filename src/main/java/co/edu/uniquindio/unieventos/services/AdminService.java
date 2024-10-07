@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unieventos.services;
 
+import co.edu.uniquindio.unieventos.Excepciones.NoExistenciaUsuarioException;
 import co.edu.uniquindio.unieventos.dto.admin.AdminRequestDTO;
 import co.edu.uniquindio.unieventos.dto.admin.AdminResponseDTO;
 import co.edu.uniquindio.unieventos.dto.event.EventRequestDTO;
@@ -44,15 +45,21 @@ public class AdminService {
 
     // Buscar admins por usuario
     public List<AdminResponseDTO> findByUsuario(String usuario) {
-        return adminRepository.findByUsuario(usuario)
+        return adminRepository.findByUsuarioContainingIgnoreCase(usuario)
                 .stream()
                 .map(this::convertToDTO)  // Transformar de entidad a DTO
                 .collect(Collectors.toList());
     }
 
     // Eliminar por "id"
-    public void deleteById(String id) {
-        adminRepository.deleteById(id);
+    public boolean deleteById(String usuario) throws NoExistenciaUsuarioException {
+        if(adminRepository.existsById(usuario)){
+            adminRepository.deleteById(usuario);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     // Eliminar por "usuario"

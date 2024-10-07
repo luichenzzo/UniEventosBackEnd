@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface AdminRepository extends MongoRepository<Admin, String> {
 
     @Query
-    List<Admin> findByUsuario(String usuario);
+    List<Admin> findByUsuarioContainingIgnoreCase(String usuario);
 
     // Buscar por "contrasenia"
 
