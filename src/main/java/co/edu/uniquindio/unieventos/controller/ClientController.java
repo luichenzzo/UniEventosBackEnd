@@ -3,7 +3,6 @@ package co.edu.uniquindio.unieventos.controller;
 import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.model.document.Client;
 import co.edu.uniquindio.unieventos.services.ClientService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clients")
-@SecurityRequirement(name="bearerAuth")
 public class ClientController {
 
     @Autowired
