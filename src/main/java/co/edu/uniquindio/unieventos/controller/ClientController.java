@@ -1,13 +1,13 @@
 package co.edu.uniquindio.unieventos.controller;
 
-import co.edu.uniquindio.unieventos.dto.client.ClientRequestDTO;
-import co.edu.uniquindio.unieventos.dto.client.ClientResponseDTO;
+import co.edu.uniquindio.unieventos.dto.client.*;
 import co.edu.uniquindio.unieventos.dto.event.EventRequestDTO;
 import co.edu.uniquindio.unieventos.dto.event.EventResponseDTO;
 import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.model.document.Client;
 import co.edu.uniquindio.unieventos.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,19 +82,38 @@ public class ClientController {
 
 
     @PutMapping("/update")
-    public ResponseEntity<Client> updateClient(@RequestParam String id, @RequestBody Client clientDetails)
+    public ResponseEntity<ClientResponseDTO> updateClient(@RequestParam String id, @RequestBody ClientRequestDTO clientRequestDTO)
     {
-        clientService.updateClient(id, clientDetails);
-        return ResponseEntity.ok(clientDetails);
+        if (!clientService.findByID(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        ClientResponseDTO clientResponseDTO = clientService.updateClient(id , clientRequestDTO);
+        return ResponseEntity.ok(clientResponseDTO);
     }
 
     @PutMapping("/updatePassword")
-    public boolean updatePassword(@RequestParam String id, @RequestParam String newPassword)
+    public ResponseEntity<ClientPasswordResponseDTO> updatePassword(@RequestParam String id, @RequestBody ClientPasswordResponseDTO clientRequestDTO)
     {
-        return clientService.updatePassword(id, newPassword);
+        ClientPasswordResponseDTO clientResponsetDTO = clientService.updatePassword(id, clientRequestDTO);
+        return ResponseEntity.ok(clientRequestDTO);
     }
 
+    @PutMapping("/login")
+    public ResponseEntity<ClientLoginResponseDTO> logInClient(@RequestBody ClientLoginRequestDTO clientLoginRequestDTO)
+    {
 
+            // Intentamos autenticar al cliente usando su email y contraseña
+            String token = clientService.loginCliente(clientLoginRequestDTO);
+
+            if(token == null){
+                // Si las credenciales son incorrectas o no existe el usuario, retornamos un error
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401 Unauthorized sin cuerpo
+            }
+            else {
+                ClientLoginResponseDTO response = new ClientLoginResponseDTO(clientLoginRequestDTO.email(), token);
+                return ResponseEntity.ok(response); // 200 OK con los datos de respuesta
+            }
+    }
 
 }
 

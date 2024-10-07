@@ -1,7 +1,7 @@
 package co.edu.uniquindio.unieventos.dto.client;
 
-public record ClientPasswordResponseDTO(
-        String id,
+public record ClientLoginResponseDTO(
+        String email,
         String token
 ) {
 }

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unieventos.repositories;
 
+import co.edu.uniquindio.unieventos.dto.client.ClientResponseDTO;
 import co.edu.uniquindio.unieventos.model.document.Client;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -30,4 +31,9 @@ public interface ClientRepository extends MongoRepository<Client, String> {
     List<Client> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
 
 
+    @Query
+    Optional<ClientResponseDTO> getClientById(String id);
+
+    @Query
+    Client findByEmail(String email);
 }
