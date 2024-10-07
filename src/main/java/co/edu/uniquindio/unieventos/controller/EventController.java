@@ -1,6 +1,7 @@
 package co.edu.uniquindio.unieventos.controller;
 
-import co.edu.uniquindio.unieventos.model.document.Event;
+import co.edu.uniquindio.unieventos.dto.event.EventRequestDTO;
+import co.edu.uniquindio.unieventos.dto.event.EventResponseDTO;
 import co.edu.uniquindio.unieventos.model.enums.EventStatus;
 import co.edu.uniquindio.unieventos.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,79 +18,82 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<Event>> getAllEvents() {
-        List<Event> events = eventService.getAllEvents();
+    @GetMapping("/get_all")
+    public ResponseEntity<List<EventResponseDTO>> getAllEvents() {
+        List<EventResponseDTO> events = eventService.getAllEvents();
         return ResponseEntity.ok(events);
     }
 
-    // Obtener un evento por ID
-    @GetMapping("/getById")
-    public ResponseEntity<Optional<Event>> getEventById(@RequestParam String id) {
-        Optional<Event> event = eventService.getEventById(id);
+    @GetMapping("/get/{id}")
+    public ResponseEntity<EventResponseDTO> getEventById(@PathVariable String id) {
+        Optional<EventResponseDTO> event = eventService.getEventById(id);
+        return event.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<EventResponseDTO> createEvent(@RequestBody EventRequestDTO eventRequestDTO) {
+        EventResponseDTO event = eventService.saveOrUpdateEvent(eventRequestDTO);
         return ResponseEntity.ok(event);
     }
 
-    // Crear o actualizar un evento
-    @PostMapping("/createOrSave")
-    public ResponseEntity<Event> saveEvent(@RequestBody Event event) {
-        Event savedEvent = eventService.saveOrUpdateEvent(event);
-        return ResponseEntity.ok(savedEvent);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable String id, @RequestBody EventRequestDTO eventRequestDTO) {
+        if (!eventService.getEventById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        EventResponseDTO updatedEvent = eventService.saveOrUpdateEvent(eventRequestDTO);
+        return ResponseEntity.ok(updatedEvent);
     }
 
-    // Eliminar un evento por ID
-    @DeleteMapping("/deleteById")
-    public ResponseEntity<Void> deleteEvent(@RequestParam String id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable String id) {
+        if (!eventService.getEventById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
         eventService.deleteEvent(id);
         return ResponseEntity.ok().build();
     }
 
-    // Buscar eventos por nombre
-    @GetMapping("/findByName")
-    public ResponseEntity<List<Event>> getEventsByName(@RequestParam String name) {
-        List<Event> events = eventService.getEventsByName(name);
+    @GetMapping("/search/name")
+    public ResponseEntity<List<EventResponseDTO>> getEventsByName(@RequestParam String name) {
+        List<EventResponseDTO> events = eventService.getEventsByName(name);
         return ResponseEntity.ok(events);
     }
 
-    // Buscar eventos por ciudad
-    @GetMapping("/findByCity")
-    public ResponseEntity<List<Event>> getEventsByCity(@RequestParam String city) {
-        List<Event> events = eventService.getEventsByCity(city);
+    @GetMapping("/search/city")
+    public ResponseEntity<List<EventResponseDTO>> getEventsByCity(@RequestParam String city) {
+        List<EventResponseDTO> events = eventService.getEventsByCity(city);
         return ResponseEntity.ok(events);
     }
 
-    // Buscar eventos por fecha
-    @GetMapping("/findByDate")
-    public ResponseEntity<List<Event>> getEventsByDate(@RequestParam String date) {
-        List<Event> events = eventService.getEventsByDate(date);
+    @GetMapping("/search/date")
+    public ResponseEntity<List<EventResponseDTO>> getEventsByDate(@RequestParam String date) {
+        List<EventResponseDTO> events = eventService.getEventsByDate(date);
         return ResponseEntity.ok(events);
     }
 
-    // Buscar eventos por estado
-    @GetMapping("/findByStatus")
-    public ResponseEntity<List<Event>> getEventsByStatus(@RequestParam EventStatus status) {
-        List<Event> events = eventService.getEventsByStatus(status);
+    @GetMapping("/search/status")
+    public ResponseEntity<List<EventResponseDTO>> getEventsByStatus(@RequestParam EventStatus status) {
+        List<EventResponseDTO> events = eventService.getEventsByStatus(status);
         return ResponseEntity.ok(events);
     }
 
-    // Buscar eventos por nombre y ciudad
-    @GetMapping("/findByNameAndCity")
-    public ResponseEntity<List<Event>> getEventsByNameAndCity(@RequestParam String name, @RequestParam String city) {
-        List<Event> events = eventService.getEventsByNameAndCity(name, city);
+    @GetMapping("/search/name-and-city")
+    public ResponseEntity<List<EventResponseDTO>> getEventsByNameAndCity(@RequestParam String name, @RequestParam String city) {
+        List<EventResponseDTO> events = eventService.getEventsByNameAndCity(name, city);
         return ResponseEntity.ok(events);
     }
 
-    // Buscar eventos por nombre o ciudad
-    @GetMapping("/findByNameOrCity")
-    public ResponseEntity<List<Event>> getEventsByNameOrCity(@RequestParam String name, @RequestParam String city) {
-        List<Event> events = eventService.getEventsByNameOrCity(name, city);
+    @GetMapping("/search/name-or-city")
+    public ResponseEntity<List<EventResponseDTO>> getEventsByNameOrCity(@RequestParam String name, @RequestParam String city) {
+        List<EventResponseDTO> events = eventService.getEventsByNameOrCity(name, city);
         return ResponseEntity.ok(events);
     }
 
-    // Buscar eventos por fecha y estado
-    @GetMapping("/findByDateAndStatus")
-    public ResponseEntity<List<Event>> getEventsByDateAndStatus(@RequestParam String date, @RequestParam EventStatus status) {
-        List<Event> events = eventService.getEventsByDateAndStatus(date, status);
+    @GetMapping("/search/date-and-status")
+    public ResponseEntity<List<EventResponseDTO>> getEventsByDateAndStatus(@RequestParam String date, @RequestParam EventStatus status) {
+        List<EventResponseDTO> events = eventService.getEventsByDateAndStatus(date, status);
         return ResponseEntity.ok(events);
     }
 }
