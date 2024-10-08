@@ -161,7 +161,7 @@ public class ClientService{
     }
 
     //TODO: hacer el login con el token
-/*
+
     public String loginCliente(ClientLoginRequestDTO clientLoginRequestDTO) {
 
 
@@ -179,12 +179,12 @@ public class ClientService{
         }
 
 
-    }*/
+    }
 
     //TODO: hacer el token
-    /*private String generateTokenClient(String email) {
+    private String generateTokenClient(String email) {
 
-        Claims claims = Jwts.claims().setSubject(email);
+        Claims claims = (Claims) Jwts.claims().setSubject(email);
         claims.put("role", "Client"); // Puedes agregar roles u otros datos relevantes aquí
         // Generar el token
          String token = Jwts.builder()
@@ -195,7 +195,7 @@ public class ClientService{
                 .compact();
 
          return token;
-    }*/
+    }
 
 
 
