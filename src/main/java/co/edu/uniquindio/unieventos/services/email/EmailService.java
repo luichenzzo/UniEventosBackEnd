@@ -3,6 +3,7 @@ package co.edu.uniquindio.unieventos.services.email;
 import co.edu.uniquindio.unieventos.dto.email.EmailDTO;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
+import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-/*
+
     @Value("${simplejavamail.smtp.host}")
     private String SMTP_HOST;
 
@@ -44,5 +45,5 @@ public class EmailService {
         }
 
 
-    }*/
+    }
 }

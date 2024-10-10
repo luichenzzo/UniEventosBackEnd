@@ -59,6 +59,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.simplejavamail:simple-java-mail:7.5.0'
 	implementation 'org.simplejavamail:simple-java-mail:6.4.4'
+	implementation group: 'org.simplejavamail', name: 'simple-java-mail', version: '8.12.2'
+
+	//Google authenticathion
+	// Firebase Admin SDK
+	implementation 'com.google.firebase:firebase-admin:9.1.0' // Verifica si hay una versión más reciente
+
+	// Google Authentication Library
+	implementation 'com.google.auth:google-auth-library-oauth2-http:1.15.0' // Verifica si hay una versión más reciente
+
+	// Otras dependencias de Spring Boot que puedas necesitar
+	implementation 'org.springframework.boot:spring-boot-starter'
 }
 
 tasks.named('test') {
