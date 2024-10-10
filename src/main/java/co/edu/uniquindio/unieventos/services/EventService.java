@@ -146,6 +146,12 @@ public class EventService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+
+    public EventResponseDTO createEvent(EventRequestDTO eventRequestDTO) {
+        Event event = convertToEntity(eventRequestDTO);
+        event = eventRepository.save(event);
+        return convertToDTO(event);
+    }
 }
 
 

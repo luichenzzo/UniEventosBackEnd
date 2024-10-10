@@ -3,6 +3,8 @@ package co.edu.uniquindio.unieventos.services;
 import co.edu.uniquindio.unieventos.Excepciones.NoExistenciaUsuarioException;
 import co.edu.uniquindio.unieventos.dto.admin.AdminRequestDTO;
 import co.edu.uniquindio.unieventos.dto.admin.AdminResponseDTO;
+import co.edu.uniquindio.unieventos.dto.event.EventRequestDTO;
+import co.edu.uniquindio.unieventos.dto.event.EventResponseDTO;
 import co.edu.uniquindio.unieventos.model.document.Admin;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -95,6 +97,7 @@ public class AdminService {
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
+
 
 }
 

@@ -5,6 +5,8 @@ import co.edu.uniquindio.unieventos.Excepciones.NoExistenciaUsuarioException;
 import co.edu.uniquindio.unieventos.dto.admin.AdminRequestDTO;
 import co.edu.uniquindio.unieventos.dto.admin.AdminResponseDTO;
 import co.edu.uniquindio.unieventos.dto.client.ClientResponseDTO;
+import co.edu.uniquindio.unieventos.dto.event.EventRequestDTO;
+import co.edu.uniquindio.unieventos.dto.event.EventResponseDTO;
 import co.edu.uniquindio.unieventos.model.document.Admin;
 import co.edu.uniquindio.unieventos.services.AdminService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -57,7 +59,6 @@ public class AdminController {
             return ResponseEntity.status(401).body("Credenciales inválidas");
         }
     }
-
     public record JwtResponse(String token) {}
 }
 

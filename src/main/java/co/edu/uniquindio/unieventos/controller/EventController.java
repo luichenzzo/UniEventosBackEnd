@@ -96,4 +96,5 @@ public class EventController {
         List<EventResponseDTO> events = eventService.getEventsByDateAndStatus(date, status);
         return ResponseEntity.ok(events);
     }
+
 }

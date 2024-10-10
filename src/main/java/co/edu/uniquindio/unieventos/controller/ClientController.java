@@ -111,6 +111,10 @@ public class ClientController {
         }
     }
 
+    @PostMapping("/likeSong")
+    public ResponseEntity<?> likeSong(){
+
+    }
     public record JwtResponse(String token) {}
 
 

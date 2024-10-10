@@ -7,6 +7,8 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+
 @Data
 @Document(collection = "clients")
 @Builder
@@ -21,4 +23,5 @@ public class Client {
     private String phoneNumber;
     private String email;
     private String password;
+    private ArrayList<Event> events;
 }
