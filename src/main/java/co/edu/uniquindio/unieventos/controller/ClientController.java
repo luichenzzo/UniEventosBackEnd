@@ -22,8 +22,12 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
+
+
     @PostMapping("/create")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ClientResponseDTO> createClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+        System.out.println(clientRequestDTO.firstName());
         ClientResponseDTO clientResponseDTO = clientService.createClient(clientRequestDTO);
         return ResponseEntity.ok(clientResponseDTO);
     }
