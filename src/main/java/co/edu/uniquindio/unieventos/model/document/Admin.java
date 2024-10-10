@@ -12,12 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 public class Admin {
     @Id
+    private String id;
     private String usuario;
     private String contrasenia;
 
-    public Admin(String usuario, String contrasenia) {
-        this.usuario = usuario;
-        this.contrasenia = contrasenia;
-    }
 }
 

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-
+    //TODO Arreglar el email
+/*
     @Value("${simplejavamail.smtp.host}")
     private String SMTP_HOST;
 
@@ -45,5 +46,5 @@ public class EmailService {
         }
 
 
-    }
+    }*/
 }

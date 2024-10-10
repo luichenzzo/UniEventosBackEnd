@@ -11,7 +11,8 @@ import java.io.IOException;
 
 @Configuration
 public class FireBaseConfig {
-
+    //TODO no se que seguir ahí, se lo copié a quinti
+/*
     @Bean
     public FirebaseApp intializeFirebase() throws IOException {
         FileInputStream serviceAccount = new FileInputStream(
@@ -25,6 +26,6 @@ public class FireBaseConfig {
             return FirebaseApp.initializeApp(options);
         }
         return null;
-    }
+    }*/
 
 }

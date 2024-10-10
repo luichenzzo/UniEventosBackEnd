@@ -7,16 +7,13 @@ import co.edu.uniquindio.unieventos.dto.client.ClientRequestDTO;
 import co.edu.uniquindio.unieventos.dto.client.ClientResponseDTO;
 import co.edu.uniquindio.unieventos.model.document.Client;
 import co.edu.uniquindio.unieventos.repositories.ClientRepository;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,8 +22,11 @@ public class ClientService{
     @Autowired
     private ClientRepository clientRepository;
 
-    private final String SECRET_KEY = "miClaveSecreta1111111111111111111111zunizteamo455"; // Asegúrate de cambiar esto y mantenerlo seguro
-    private final long EXPIRATION_TIME = 2000000; //
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    @Value("${jwt.expiration}")
+    private String jwtExpiration;
 
 
     // Método para convertir de DTO a entidad
@@ -160,41 +160,29 @@ public class ClientService{
         return clientRepository.getClientById(id);
     }
 
-    //TODO: hacer el login con el token
-
-    public String loginCliente(ClientLoginRequestDTO clientLoginRequestDTO) {
-
-
-        // Buscar el cliente por su email
-        Client client = clientRepository.findByEmail(clientLoginRequestDTO.email());
-        if(client.getPassword().equals(clientLoginRequestDTO.password())){
-            // Si el login es exitoso, generar un token (puedes usar JWT o alguna otra lógica)
-            String token = generateTokenClient(clientLoginRequestDTO.email());
-            System.out.println("token" + token);
-            return token; // Retornamos el token generado
+    public String iniciarSesion(String email, String password) {
+        Client client = clientRepository.findByEmailAndPassword(email, password);
+        if (client != null) {
+            return generarToken(client);
+        } else {
+            throw new RuntimeException("Credenciales inválidas");
         }
-        else{
-            System.out.println("Usuario o contraseña invalidas");
-            return null;
-        }
-
-
     }
 
-    //TODO: hacer el token
-    private String generateTokenClient(String email) {
+    private String generarToken(Client client) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", client.getId());
+        claims.put("email", client.getEmail());
+        claims.put("firstName", client.getFirstName());
+        claims.put("lastName", client.getLastName());
 
-        Claims claims = (Claims) Jwts.claims().setSubject(email);
-        claims.put("role", "Client"); // Puedes agregar roles u otros datos relevantes aquí
-        // Generar el token
-         String token = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(new Date(System.currentTimeMillis())) // Fecha de emisión
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // Fecha de expiración
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY) // Firmar el token
+                .setSubject(client.getEmail())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
-
-         return token;
     }
 
 

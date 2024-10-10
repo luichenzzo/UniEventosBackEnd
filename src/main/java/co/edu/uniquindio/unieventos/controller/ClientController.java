@@ -102,22 +102,16 @@ public class ClientController {
         return ResponseEntity.ok(clientRequestDTO);
     }
 
-    @PutMapping("/login")
-    public ResponseEntity<ClientLoginResponseDTO> logInClient(@RequestBody ClientLoginRequestDTO clientLoginRequestDTO)
-    {
-
-            // Intentamos autenticar al cliente usando su email y contraseña
-            String token = clientService.loginCliente(clientLoginRequestDTO);
-
-            if(token == null){
-                // Si las credenciales son incorrectas o no existe el usuario, retornamos un error
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401 Unauthorized sin cuerpo
-            }
-            else {
-                ClientLoginResponseDTO response = new ClientLoginResponseDTO(clientLoginRequestDTO.email(), token);
-                return ResponseEntity.ok(response); // 200 OK con los datos de respuesta
-            }
+    public ResponseEntity<?> iniciarSesion(@RequestBody ClientLoginRequestDTO loginDTO) {
+        try {
+            String token = clientService.iniciarSesion(loginDTO.email(), loginDTO.password());
+            return ResponseEntity.ok(new JwtResponse(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Credenciales inválidas");
+        }
     }
+
+    public record JwtResponse(String token) {}
 
 
 

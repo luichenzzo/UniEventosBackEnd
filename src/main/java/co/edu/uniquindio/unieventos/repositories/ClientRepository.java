@@ -36,4 +36,6 @@ public interface ClientRepository extends MongoRepository<Client, String> {
 
     @Query
     Client findByEmail(String email);
+
+    Client findByEmailAndPassword(String email, String password);
 }
