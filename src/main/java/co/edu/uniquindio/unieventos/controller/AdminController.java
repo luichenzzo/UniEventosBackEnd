@@ -49,13 +49,16 @@ public class AdminController {
 
     // Buscar admin por usuario y contrasenia
     @PostMapping("/login")
-    public ResponseEntity<AdminResponseDTO> login(@RequestBody AdminRequestDTO adminRequestDTO) {
-        Optional<AdminResponseDTO> admin = adminService.findByUsuarioAndContrasenia(adminRequestDTO.usuario(), adminRequestDTO.contrasenia());
-        if (admin.isPresent()) {
-            return ResponseEntity.ok(admin.get());
+    public ResponseEntity<?> iniciarSesion(@RequestBody AdminRequestDTO loginDTO) {
+        try {
+            String token = adminService.iniciarSesion(loginDTO.usuario(), loginDTO.contrasenia());
+            return ResponseEntity.ok(new JwtResponse(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Credenciales inválidas");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
+    public record JwtResponse(String token) {}
 }
 
 

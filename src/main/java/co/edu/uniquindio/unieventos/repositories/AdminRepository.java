@@ -23,7 +23,7 @@ public interface AdminRepository extends MongoRepository<Admin, String> {
     // Eliminar por "usuario"
     void deleteByUsuario(String usuario);
 
-    @Query
-    Optional<Admin> findByUsuarioAndContrasenia(String usuario, String contrasenia);
+
+    Admin findByUsuarioAndContrasenia(String usuario, String contrasenia);
 
 }
