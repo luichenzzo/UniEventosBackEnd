@@ -1,27 +1,28 @@
 package co.edu.uniquindio.unieventos.controller.email;
 
+import co.edu.uniquindio.unieventos.dto.email.EmailDTO;
 import co.edu.uniquindio.unieventos.services.email.EmailService;
+import co.edu.uniquindio.unieventos.services.email.IEmailService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/mail")
+@RequestMapping()
 public class EmailController {
-/*
-    @Autowired
-    private EmailService emailService;
 
-    @GetMapping("/sendEmail")
-    public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text) {
+    @Autowired
+    IEmailService emailService;
+
+    @PostMapping("/send-email")
+    private ResponseEntity<String> sendEmail(@RequestBody EmailDTO email) {
         try {
-            emailService.sendEmail(to, subject, text);
-            return "Email enviado correctamente";
-        } catch (MessagingException e) {
-            return "Error al enviar el email: " + e.getMessage();
+            emailService.sendMail(email);
+            return new ResponseEntity<>("Correo enviado exitosamente.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al enviar el correo: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
+    }
 }

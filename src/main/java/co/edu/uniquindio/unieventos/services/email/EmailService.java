@@ -1,50 +1,39 @@
 package co.edu.uniquindio.unieventos.services.email;
 
 import co.edu.uniquindio.unieventos.dto.email.EmailDTO;
-import org.simplejavamail.api.email.Email;
-import org.simplejavamail.api.mailer.Mailer;
-import org.simplejavamail.api.mailer.config.TransportStrategy;
-import org.simplejavamail.email.EmailBuilder;
-import org.simplejavamail.mailer.MailerBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Service
-public class EmailService {
-    //TODO Arreglar el email
-/*
-    @Value("${simplejavamail.smtp.host}")
-    private String SMTP_HOST;
+public class EmailService implements IEmailService{
 
-    @Value("${simplejavamail.smtp.port}")
-    private int SMTP_PORT;
+    private final JavaMailSender javaMailSender;
+    private final TemplateEngine templateEngine;
 
-    @Value("${simplejavamail.smtp.username}")
-    private String SMTP_USERNAME;
+    public EmailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
+        this.javaMailSender = javaMailSender;
+        this.templateEngine = templateEngine;
+    }
+    @Override
+    public void sendMail(EmailDTO emailDTO) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(emailDTO.getAddressee());
+            helper.setSubject(emailDTO.getSubject());
 
-    @Value("${simplejavamail.smtp.password}")
-    private String SMTP_PASSWORD;
+            Context context = new Context();
+            context.setVariable("message", emailDTO.getMessage());
+            String contentHTML = templateEngine.process("email", context);
 
-    public void sendEmail(EmailDTO emailDTO) throws Exception {
-        Email email = EmailBuilder.startingBlank()
-                .from(SMTP_USERNAME)
-                .to(emailDTO.receiver())
-                .withSubject(emailDTO.subject())
-                //This plain text could be replaced with "withHTMLText"
-                .withPlainText(emailDTO.body())
-                .buildEmail();
-
-
-        try (Mailer mailer = MailerBuilder
-                .withSMTPServer(SMTP_HOST, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD)
-                .withTransportStrategy(TransportStrategy.SMTP_TLS)
-                .withDebugLogging(true)
-                .buildMailer()) {
-
-
-            mailer.sendMail(email);
+            helper.setText(contentHTML, true);
+            javaMailSender.send(message);
+        }catch (Exception e){
+            throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
         }
-
-
-    }*/
+    }
 }
