@@ -50,6 +50,7 @@ public class ClientService{
                 client.getId(),
                 client.getFirstName(),
                 client.getLastName(),
+                client.getAddress(),
                 client.getEmail(),
                 client.getPhoneNumber(),
                 client.getPassword()
@@ -161,12 +162,28 @@ public class ClientService{
     }
 
     public String iniciarSesion(String email, String password) {
-        Client client = clientRepository.findByEmailAndPassword(email, password);
-        if (client != null) {
-            return generarToken(client);
-        } else {
-            throw new RuntimeException("Credenciales inválidas");
+        System.out.println("holaaa " + email + password);
+        ClientResponseDTO clientDTO = clientRepository.findByEmailAndPassword(email , password);
+        try {
+            Client client = Client.builder().
+                    firstName(clientDTO.firstName()).
+                    lastName(clientDTO.lastName()).
+                    email(clientDTO.email()).
+                    password(clientDTO.password()).
+                    address(clientDTO.address()).
+                    id(clientDTO.id()).
+                    phoneNumber(clientDTO.phoneNumber()).
+                    build();
+
+            if (client != null) {
+                return generarToken(client);
+            } else {
+                throw new RuntimeException("Credenciales inválidas");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     private String generarToken(Client client) {
@@ -176,13 +193,13 @@ public class ClientService{
         claims.put("firstName", client.getFirstName());
         claims.put("lastName", client.getLastName());
 
-        return Jwts.builder()
+        return "adadsdfdef";/*Jwts.builder()
                 .setClaims(claims)
                 .setSubject(client.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
-                .compact();
+                .compact();*/
     }
 
 
