@@ -164,10 +164,14 @@ public class ClientService{
 
     public String loginCliente(ClientLoginRequestDTO clientLoginRequestDTO) {
 
+        System.out.println(clientLoginRequestDTO.email());
+        System.out.println(clientLoginRequestDTO.password());
+
 
         // Buscar el cliente por su email
         Client client = clientRepository.findByEmail(clientLoginRequestDTO.email());
         if(client.getPassword().equals(clientLoginRequestDTO.password())){
+            System.out.println("Inicio de sesion correcto, pero aun no se crea el token");
             // Si el login es exitoso, generar un token (puedes usar JWT o alguna otra lógica)
             String token = generateTokenClient(clientLoginRequestDTO.email());
             System.out.println("token" + token);

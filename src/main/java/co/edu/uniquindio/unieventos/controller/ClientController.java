@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clients")
+@CrossOrigin("http://localhost:3000")
 public class ClientController {
 
     @Autowired
@@ -98,7 +99,7 @@ public class ClientController {
         return ResponseEntity.ok(clientRequestDTO);
     }
 
-    @PutMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<ClientLoginResponseDTO> logInClient(@RequestBody ClientLoginRequestDTO clientLoginRequestDTO)
     {
 
