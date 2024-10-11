@@ -9,8 +9,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Service
-public class EmailService implements IEmailService{
-
+public class EmailService implements IEmailService {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
 
@@ -18,21 +17,25 @@ public class EmailService implements IEmailService{
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
     }
+
     @Override
-    public void sendMail(EmailDTO emailDTO) {
+    public void sendMail(EmailDTO correoRequest) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setTo(emailDTO.getAddressee());
-            helper.setSubject(emailDTO.getSubject());
 
+            helper.setTo(correoRequest.getAddressee());
+            helper.setSubject(correoRequest.getSubject());
+
+            // Procesar la plantilla Thymeleaf
             Context context = new Context();
-            context.setVariable("message", emailDTO.getMessage());
-            String contentHTML = templateEngine.process("email", context);
+            context.setVariable("mensaje", correoRequest.getMessage());
+            String contenidoHtml = templateEngine.process("email", context);
 
-            helper.setText(contentHTML, true);
+            helper.setText(contenidoHtml, true);
+
             javaMailSender.send(message);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
         }
     }
