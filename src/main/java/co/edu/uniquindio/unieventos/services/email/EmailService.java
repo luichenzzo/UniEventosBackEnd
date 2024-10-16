@@ -1,42 +1,48 @@
 package co.edu.uniquindio.unieventos.services.email;
 
 import co.edu.uniquindio.unieventos.dto.email.EmailDTO;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.File;
+
 @Service
-public class EmailService implements IEmailService {
-    private final JavaMailSender javaMailSender;
-    private final TemplateEngine templateEngine;
+public class EmailService {
 
-    public EmailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
-        this.javaMailSender = javaMailSender;
-        this.templateEngine = templateEngine;
-    }
+    @Autowired
+    private JavaMailSender mailSender;
 
-    @Override
-    public void sendMail(EmailDTO correoRequest) {
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    public void sendEmailWithTemplate(EmailDTO emailDTO) {
         try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setTo(correoRequest.getAddressee());
-            helper.setSubject(correoRequest.getSubject());
+            helper.setTo(emailDTO.getRecipient());
+            helper.setSubject(emailDTO.getSubject());
 
-            // Procesar la plantilla Thymeleaf
+            // Cargar la plantilla HTML usando Thymeleaf
             Context context = new Context();
-            context.setVariable("mensaje", correoRequest.getMessage());
-            String contenidoHtml = templateEngine.process("email", context);
+            context.setVariable("msgBody", emailDTO.getMsgBody());
+            String htmlContent = templateEngine.process("emailTemplate", context);
+            helper.setText(htmlContent, true); // El segundo parámetro indica que es HTML
 
-            helper.setText(contenidoHtml, true);
-
-            javaMailSender.send(message);
+            // Enviar correo
+            mailSender.send(message);
+            System.out.println("Correo enviado con éxito a " + emailDTO.getRecipient());
         } catch (Exception e) {
-            throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
+            System.out.println("Error al enviar el correo: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+
 }

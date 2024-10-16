@@ -1,14 +1,21 @@
 package co.edu.uniquindio.unieventos.dto.email;
 
-import lombok.Getter;
+// Importing required classes
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+// Annotations
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
+
+// Class
 public class EmailDTO {
-        private String addressee;
+
+        // Class data members
+        private String recipient;
+        private String msgBody;
         private String subject;
-        private String message;
+        private String attachment;
 }

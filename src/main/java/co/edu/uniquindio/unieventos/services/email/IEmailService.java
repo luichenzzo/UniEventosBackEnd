@@ -1,8 +1,17 @@
 package co.edu.uniquindio.unieventos.services.email;
 
-import co.edu.uniquindio.unieventos.dto.email.EmailDTO;
-import jakarta.mail.MessagingException;
 
+// Importing required classes
+import co.edu.uniquindio.unieventos.dto.email.EmailDTO;
+
+// Interface
 public interface IEmailService {
-    void sendMail(EmailDTO emailDTO) throws MessagingException;
+
+    // Method
+    // To send a simple email
+    String sendSimpleMail(EmailDTO details);
+
+    // Method
+    // To send an email with attachment
+    String sendMailWithAttachment(EmailDTO details);
 }
