@@ -1,20 +1,21 @@
 package co.edu.uniquindio.unieventos.dto.email;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Length;
+// Importing required classes
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+// Annotations
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 
-public record EmailDTO(
-        @NotBlank(message = "Subject cannot be empty")
-        @Length(max = 100, message = "Subject must not exceed 100 characters")
-        String subject,
+// Class
+public class EmailDTO {
 
-        @NotBlank(message = "Body cannot be empty")
-        String body,
-
-        @NotBlank(message = "Receiver email cannot be empty")
-        @Email(message = "Invalid email format for receiver")
-        String receiver
-) {
+        // Class data members
+        private String recipient;
+        private String msgBody;
+        private String subject;
+        private String attachment;
 }

@@ -1,50 +1,48 @@
 package co.edu.uniquindio.unieventos.services.email;
 
 import co.edu.uniquindio.unieventos.dto.email.EmailDTO;
-import org.simplejavamail.api.email.Email;
-import org.simplejavamail.api.mailer.Mailer;
-import org.simplejavamail.api.mailer.config.TransportStrategy;
-import org.simplejavamail.email.EmailBuilder;
-import org.simplejavamail.mailer.MailerBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+import java.io.File;
 
 @Service
 public class EmailService {
-    //TODO Arreglar el email
-/*
-    @Value("${simplejavamail.smtp.host}")
-    private String SMTP_HOST;
 
-    @Value("${simplejavamail.smtp.port}")
-    private int SMTP_PORT;
+    @Autowired
+    private JavaMailSender mailSender;
 
-    @Value("${simplejavamail.smtp.username}")
-    private String SMTP_USERNAME;
+    @Autowired
+    private TemplateEngine templateEngine;
 
-    @Value("${simplejavamail.smtp.password}")
-    private String SMTP_PASSWORD;
+    public void sendEmailWithTemplate(EmailDTO emailDTO) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-    public void sendEmail(EmailDTO emailDTO) throws Exception {
-        Email email = EmailBuilder.startingBlank()
-                .from(SMTP_USERNAME)
-                .to(emailDTO.receiver())
-                .withSubject(emailDTO.subject())
-                //This plain text could be replaced with "withHTMLText"
-                .withPlainText(emailDTO.body())
-                .buildEmail();
+            helper.setTo(emailDTO.getRecipient());
+            helper.setSubject(emailDTO.getSubject());
 
+            // Cargar la plantilla HTML usando Thymeleaf
+            Context context = new Context();
+            context.setVariable("msgBody", emailDTO.getMsgBody());
+            String htmlContent = templateEngine.process("emailTemplate", context);
+            helper.setText(htmlContent, true); // El segundo parámetro indica que es HTML
 
-        try (Mailer mailer = MailerBuilder
-                .withSMTPServer(SMTP_HOST, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD)
-                .withTransportStrategy(TransportStrategy.SMTP_TLS)
-                .withDebugLogging(true)
-                .buildMailer()) {
-
-
-            mailer.sendMail(email);
+            // Enviar correo
+            mailSender.send(message);
+            System.out.println("Correo enviado con éxito a " + emailDTO.getRecipient());
+        } catch (Exception e) {
+            System.out.println("Error al enviar el correo: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
 
-
-    }*/
 }

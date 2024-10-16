@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@CrossOrigin(origins = "http//localhost:3000/login")
 @RestController
 @RequestMapping("/api/clients")
 public class ClientController {
@@ -102,10 +103,21 @@ public class ClientController {
         return ResponseEntity.ok(clientRequestDTO);
     }
 
+    @PostMapping("/login")
     public ResponseEntity<?> iniciarSesion(@RequestBody ClientLoginRequestDTO loginDTO) {
         try {
+            System.out.println("entro " + loginDTO.email());
             String token = clientService.iniciarSesion(loginDTO.email(), loginDTO.password());
-            return ResponseEntity.ok(new JwtResponse(token));
+            System.out.println(loginDTO.email());
+            System.out.println(loginDTO.password());
+
+            if(token != null)
+            {
+                return ResponseEntity.ok(new JwtResponse(token));
+            }
+            else {
+                return ResponseEntity.status(401).body("Credenciales inválidas");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Credenciales inválidas");
         }
