@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class Event {
     private String address;
     private String city;
     private String description;
-    private String posterImage;
-    private String locationImage;
+    private MultipartFile  posterImage;
+    private MultipartFile locationImage;
     private String name;
     private String date;
     private String dateTime;

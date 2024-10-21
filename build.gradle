@@ -68,6 +68,7 @@ dependencies {
 // Google Firebase y autenticación
 	implementation 'com.google.firebase:firebase-admin:9.1.0'
 	implementation 'com.google.auth:google-auth-library-oauth2-http:1.23.0'
+	implementation 'com.google.cloud:google-cloud-storage:2.8.0'
 
 // Desarrollo
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
