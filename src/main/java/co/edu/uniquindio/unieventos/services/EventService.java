@@ -20,6 +20,9 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private ImageUploadService imageUploadService;
+
     // Método para convertir de DTO a entidad
     private Event convertToEntity(EventRequestDTO dto) {
         List<Location> locations = dto.listLocations().stream()
